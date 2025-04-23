@@ -1,29 +1,37 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Select, Button, Form, Input } from "antd";
+import { Button, Form, Input } from "antd";
 
-import { sftFormActions } from "../../store/sft-form-slice";
-import { generatePassword } from "../../utils/telegramSender";
+import { CONSTANTS } from "../../utils/constants";
+
+import {
+  checkIfActivityHasStarted,
+  getFromLocal,
+  saveToLocal,
+} from "../../utils/telegramSender";
 
 import "./SFTForm.css";
 
-let index = 5;
 const SFTForm = () => {
-  const isActivityStarted = useSelector(
-    (state) => state.sftForm.isActivityStarted
-  );
-
   const dispatch = useDispatch();
-  const { Option } = Select;
-  const [items, setItems] = useState([]);
-
-  const inputRef = useRef(null);
+  const [isActivityStarted, setIsActivityStarted] = useState(
+    checkIfActivityHasStarted()
+  );
 
   /** Form handlers. */
   const onFinish = (values) => {
     // console.log("Success:", values);
-    // generatePassword(values);
-    dispatch(sftFormActions.startActivity());
+    const time = new Date();
+    const formattedTime = time.toLocaleString();
+    saveToLocal(CONSTANTS.FORM_ITEM_KEYS.RANK_NAME, values.rankName);
+    saveToLocal(
+      CONSTANTS.FORM_ITEM_KEYS.PLATOON_SECTION,
+      values.platoonSection
+    );
+    saveToLocal(CONSTANTS.FORM_ITEM_KEYS.LOCATION, values.location);
+    saveToLocal(CONSTANTS.FORM_ITEM_KEYS.ACTIVITY, values.activity);
+    saveToLocal(CONSTANTS.FORM_ITEM_KEYS.START_TIME, formattedTime);
+    setIsActivityStarted(true);
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -47,7 +55,14 @@ const SFTForm = () => {
           },
         ]}
       >
-        <Input disabled={isActivityStarted} />
+        <Input
+          disabled={isActivityStarted}
+          defaultValue={
+            isActivityStarted
+              ? getFromLocal(CONSTANTS.FORM_ITEM_KEYS.RANK_NAME)
+              : ""
+          }
+        />
       </Form.Item>
 
       <Form.Item
@@ -60,7 +75,14 @@ const SFTForm = () => {
           },
         ]}
       >
-        <Input disabled={isActivityStarted} />
+        <Input
+          disabled={isActivityStarted}
+          defaultValue={
+            isActivityStarted
+              ? getFromLocal(CONSTANTS.FORM_ITEM_KEYS.PLATOON_SECTION)
+              : ""
+          }
+        />
       </Form.Item>
 
       <Form.Item
@@ -73,7 +95,14 @@ const SFTForm = () => {
           },
         ]}
       >
-        <Input disabled={isActivityStarted} />
+        <Input
+          disabled={isActivityStarted}
+          defaultValue={
+            isActivityStarted
+              ? getFromLocal(CONSTANTS.FORM_ITEM_KEYS.LOCATION)
+              : ""
+          }
+        />
       </Form.Item>
 
       <Form.Item
@@ -86,7 +115,14 @@ const SFTForm = () => {
           },
         ]}
       >
-        <Input disabled={isActivityStarted} />
+        <Input
+          disabled={isActivityStarted}
+          defaultValue={
+            isActivityStarted
+              ? getFromLocal(CONSTANTS.FORM_ITEM_KEYS.ACTIVITY)
+              : ""
+          }
+        />
       </Form.Item>
 
       {!isActivityStarted && (

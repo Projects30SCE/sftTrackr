@@ -2,7 +2,7 @@ import { sha256 } from "js-sha256";
 
 import store from "../store/index";
 import { CONSTANTS } from "./constants";
-import { passwordFormActions } from "../store/password-form-slice";
+import { sftFormActions } from "../store/sft-form-slice";
 
 const isDigit = (c) => {
   return /^[0-9]$/.test(c);
@@ -100,5 +100,5 @@ export const generatePassword = (values) => {
   }
 
   // console.log(hashedPassword);
-  store.dispatch(passwordFormActions.updateGeneratedPassword(hashedPassword));
+  store.dispatch(sftFormActions.updateGeneratedPassword(hashedPassword));
 };

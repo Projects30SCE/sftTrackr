@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import passwordFormSlice from "./password-form-slice";
+import sftFormSlice from "./sft-form-slice";
 
 const store = configureStore({
   reducer: {
-    passwordForm: passwordFormSlice.reducer,
+    sftForm: sftFormSlice.reducer,
   },
 });
 

@@ -3,20 +3,15 @@ import { useDispatch } from "react-redux";
 import {
   Select,
   Button,
-  Checkbox,
   Form,
   Input,
-  InputNumber,
-  Divider,
-  Space,
 } from "antd";
-import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 
 import { CONSTANTS } from "../../utils/constants";
-import { passwordFormActions } from "../../store/password-form-slice";
-import { generatePassword } from "../../utils/passwordGenerator";
+import { sftFormActions } from "../../store/sft-form-slice";
+import { generatePassword } from "../../utils/telegramSender";
 
-import "./PasswordForm.css";
+import "./SFTForm.css";
 
 const passwordFormatOptions = [
   {
@@ -86,15 +81,11 @@ const PasswordForm = () => {
   const onFinish = (values) => {
     // console.log("Success:", values);
     generatePassword(values);
-    dispatch(passwordFormActions.openOutputModal());
+    dispatch(sftFormActions.openOutputModal());
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
-  };
-
-  const onChange = (checkedValues) => {
-    console.log("checked = ", checkedValues);
   };
 
   return (
@@ -109,103 +100,60 @@ const PasswordForm = () => {
       autoComplete="off"
     >
       <Form.Item
-        label="Domain Name"
-        name="domainName"
+        label="Rank/ Name"
+        name="rankName"
         rules={[
           {
             required: true,
-            message: "Please input the domain name!",
+            message: "Please input the rank and name!",
           },
         ]}
       >
-        {/* <Input /> */}
-        <Select
-          showSearch
-          optionLabelProp="label"
-          onChange={handleChange}
-          filterOption={(input, option) =>
-            (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
-          }
-          dropdownRender={(menu) => (
-            <>
-              {menu}
-              <Divider
-                style={{
-                  margin: "8px 0",
-                }}
-              />
-              <Space
-                style={{
-                  padding: "0 8px 4px",
-                }}
-              >
-                <Input
-                  placeholder="New domain name"
-                  ref={inputRef}
-                  value={name}
-                  onChange={onNameChange}
-                  onKeyDown={(e) => e.stopPropagation()}
-                />
-                <Button type="text" icon={<PlusOutlined />} onClick={addItem}>
-                  Add Domain
-                </Button>
-              </Space>
-            </>
-          )}
-        >
-          {items.map((task) => {
-            return (
-              <Option key={task.id} value={task.value} label={task.label}>
-                <span>{task.label}</span>
-                <span style={{ float: "right" }}>
-                  <DeleteOutlined
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      deleteOption(task.value);
-                    }}
-                  />
-                </span>
-              </Option>
-            );
-          })}
-        </Select>
+        <Input />
       </Form.Item>
 
       <Form.Item
-        label="Password"
-        name="password"
+        label="Platoon/ Section"
+        name="platoonSection"
         rules={[
           {
             required: true,
-            message: "Please input your password!",
+            message: "Please input your platoon and section!",
           },
         ]}
       >
-        <Input.Password />
+        <Input />
       </Form.Item>
 
       <Form.Item
-        name="iteration"
-        label="Iteration"
+        label="Location"
+        name="location"
         rules={[
           {
             required: true,
-            type: "number",
-            min: 1,
-            max: 99,
+            message: "Please input location!",
           },
         ]}
       >
-        <InputNumber />
+        <Input />
       </Form.Item>
 
-      <Form.Item name="passwordFormat">
-        <Checkbox.Group options={passwordFormatOptions} onChange={onChange} />
+      <Form.Item
+        label="Activity"
+        name="activity"
+        rules={[
+          {
+            required: true,
+            message: "Please input activity!",
+          },
+        ]}
+      >
+        <Input />
       </Form.Item>
 
       <Form.Item>
         <Button type="primary" htmlType="submit">
-          Generate Password
+          Start Activity
         </Button>
       </Form.Item>
     </Form>

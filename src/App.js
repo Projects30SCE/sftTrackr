@@ -1,16 +1,17 @@
-import { Flex } from "antd";
+import { Flex, Button } from "antd";
 
-import PasswordForm from "./components/PasswordForm/PasswordForm";
+import SFTForm from "./components/SFTForm/SFTForm";
 
 import "./App.css";
-import PasswordOutput from "./components/PasswordOutput/PasswordOutput";
 
 const App = () => {
   return (
     <Flex gap="middle" align="start" vertical>
       <Flex className="App-FlexBoxStyle" justify="center" align="center">
-        <PasswordForm />
-        <PasswordOutput />
+        <SFTForm />
+        <Button type="primary" htmlType="submit">
+          Stop Activity
+        </Button>
       </Flex>
     </Flex>
   );

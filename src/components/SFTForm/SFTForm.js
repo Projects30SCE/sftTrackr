@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
-import { Button, Form, Input, Modal, Checkbox, Spin, message } from "antd";
+import { useState } from "react";
+import { Button, Form, Input, Modal, Checkbox, message } from "antd";
+import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 
 import { CONSTANTS } from "../../utils/constants";
 import {
@@ -28,7 +29,9 @@ const SFTForm = () => {
   const [checkedList, setCheckedList] = useState([]);
 
   const initialValues = {
-    rankName: getFromLocal(CONSTANTS.FORM_ITEM_KEYS.RANK_NAME) || "",
+    rankName: getFromLocal(CONSTANTS.FORM_ITEM_KEYS.RANK_NAME)
+      ?.split(",")
+      .map((name) => name.trim()) || [""],
     platoonSection:
       getFromLocal(CONSTANTS.FORM_ITEM_KEYS.PLATOON_SECTION) || "",
     location: getFromLocal(CONSTANTS.FORM_ITEM_KEYS.LOCATION) || "",
@@ -37,9 +40,11 @@ const SFTForm = () => {
 
   /** Form handlers */
   const onFinish = async (values) => {
+    console.log(values);
     const formattedTime = new Date().toLocaleString();
-
-    saveToLocal(CONSTANTS.FORM_ITEM_KEYS.RANK_NAME, values.rankName);
+    const rankNames = values.rankName.map((item) => item).filter(Boolean);
+    saveToLocal(CONSTANTS.FORM_ITEM_KEYS.RANK_NAME, rankNames.join(","));
+    // saveToLocal(CONSTANTS.FORM_ITEM_KEYS.RANK_NAME, values.rankName);
     saveToLocal(
       CONSTANTS.FORM_ITEM_KEYS.PLATOON_SECTION,
       values.platoonSection
@@ -121,7 +126,7 @@ const SFTForm = () => {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
-        <Form.Item
+        {/* <Form.Item
           label="Rank/ Name"
           name="rankName"
           rules={[
@@ -129,8 +134,78 @@ const SFTForm = () => {
           ]}
         >
           <Input disabled={isActivityStarted} />
-        </Form.Item>
+        </Form.Item> */}
+        <Form.List
+          name="rankName"
+          rules={[
+            {
+              required: true,
+              validator: async (_, rankName) => {
+                if (!rankName || rankName.length < 2) {
+                  return Promise.reject(
+                    new Error("SFT must be done in buddy level")
+                  );
+                }
+                if (rankName.some((v) => !v || !v.trim())) {
+                  return Promise.reject(
+                    new Error("All rank/name fields must be filled")
+                  );
+                }
+              },
+            },
+          ]}
+        >
+          {(fields, { add, remove }, { errors }) => (
+            <Form.Item label="Rank/ Name">
+              {fields.map((field) => {
+                const { key, ...fieldProps } = field; // extract key from spread
+                return (
+                  <div
+                    key={key}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginBottom: 8,
+                    }}
+                  >
+                    <Form.Item
+                      {...fieldProps} // spread without key
+                      rules={[
+                        { required: true, message: "Please input rank/name" },
+                      ]}
+                      noStyle
+                    >
+                      <Input
+                        placeholder="Enter rank/name"
+                        disabled={isActivityStarted}
+                        style={{ flex: 1 }}
+                      />
+                    </Form.Item>
 
+                    {fields.length > 1 && !isActivityStarted && (
+                      <MinusCircleOutlined
+                        onClick={() => remove(field.name)}
+                        style={{ marginLeft: 8, fontSize: 20 }}
+                      />
+                    )}
+                  </div>
+                );
+              })}
+              <Form.Item>
+                <Button
+                  type="dashed"
+                  onClick={() => add("")} // Add empty string
+                  style={{ width: "100%" }}
+                  icon={<PlusOutlined />}
+                  disabled={isActivityStarted}
+                >
+                  Add field
+                </Button>
+                <Form.ErrorList errors={errors} />
+              </Form.Item>
+            </Form.Item>
+          )}
+        </Form.List>
         <Form.Item
           label="Platoon/ Section"
           name="platoonSection"

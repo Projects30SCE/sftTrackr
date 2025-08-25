@@ -40,9 +40,13 @@ export const removeFromLocal = (key) => {
 };
 
 export const sendStartTelegramMessage = async () => {
-  const rankName = getFromLocal(CONSTANTS.FORM_ITEM_KEYS.RANK_NAME);
+  const rankName = getFromLocal(
+    CONSTANTS.FORM_ITEM_KEYS.RANK_NAME
+  ).toUpperCase();
   const platoonSection = getFromLocal(CONSTANTS.FORM_ITEM_KEYS.PLATOON_SECTION);
-  const location = getFromLocal(CONSTANTS.FORM_ITEM_KEYS.LOCATION);
+  const location = getFromLocal(
+    CONSTANTS.FORM_ITEM_KEYS.LOCATION
+  ).toUpperCase();
   const activity = getFromLocal(CONSTANTS.FORM_ITEM_KEYS.ACTIVITY);
   const startTime = getFromLocal(CONSTANTS.FORM_ITEM_KEYS.START_TIME);
   const message = `Rank/Name: ${rankName}\nPlt/Section: ${platoonSection}\nLocation: ${location}\nActivity: ${activity}\nStart: ${startTime}\nEnd:`;

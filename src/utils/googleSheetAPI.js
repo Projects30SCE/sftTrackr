@@ -18,8 +18,8 @@ export const getSFTChecklist = async (url) => {
   }
 };
 
-export const getRowNumber = async () => {
-  const url = `${CONSTANTS.SHEETS}?action=GET_LAST_ROW&coy=${CONSTANTS.COYS.CHARLIE}`;
+export const getRowNumber = async (coy) => {
+  const url = `${CONSTANTS.SHEETS}?action=GET_LAST_ROW&coy=${coy}`;
 
   try {
     const response = await fetch(url);

@@ -48,8 +48,9 @@ export const sendStartTelegramMessage = async () => {
     CONSTANTS.FORM_ITEM_KEYS.LOCATION
   ).toUpperCase();
   const activity = getFromLocal(CONSTANTS.FORM_ITEM_KEYS.ACTIVITY);
+  const subUnit = getFromLocal(CONSTANTS.FORM_ITEM_KEYS.SUB_UNIT);
   const startTime = getFromLocal(CONSTANTS.FORM_ITEM_KEYS.START_TIME);
-  const message = `Rank/Name: ${rankName}\nPlt/Section: ${platoonSection}\nLocation: ${location}\nActivity: ${activity}\nStart: ${startTime}\nEnd:`;
+  const message = `Rank/Name: ${rankName}\nSub-Unit: ${subUnit}\nPlt/Section: ${platoonSection}\nLocation: ${location}\nActivity: ${activity}\nStart: ${startTime}\nEnd:`;
 
   const testUrl = `https://api.telegram.org/bot7677613806:AAHuIpblzFnJcUYKisgYITWskDj9jhtXPXI/sendMessage`;
 
@@ -70,9 +71,10 @@ export const sendEndTelegramMessage = async () => {
   const platoonSection = getFromLocal(CONSTANTS.FORM_ITEM_KEYS.PLATOON_SECTION);
   const location = getFromLocal(CONSTANTS.FORM_ITEM_KEYS.LOCATION);
   const activity = getFromLocal(CONSTANTS.FORM_ITEM_KEYS.ACTIVITY);
+  const subUnit = getFromLocal(CONSTANTS.FORM_ITEM_KEYS.SUB_UNIT);
   const startTime = getFromLocal(CONSTANTS.FORM_ITEM_KEYS.START_TIME);
   const endTime = getFromLocal(CONSTANTS.FORM_ITEM_KEYS.END_TIME);
-  const message = `Rank/Name: ${rankName}\nPlt/Section: ${platoonSection}\nLocation: ${location}\nActivity: ${activity}\nStart: ${startTime}\nEnd: ${endTime}`;
+  const message = `Rank/Name: ${rankName}\nSub-Unit: ${subUnit}\nPlt/Section: ${platoonSection}\nLocation: ${location}\nActivity: ${activity}\nStart: ${startTime}\nEnd: ${endTime}`;
 
   const testUrl = `https://api.telegram.org/bot7677613806:AAHuIpblzFnJcUYKisgYITWskDj9jhtXPXI/sendMessage`;
 

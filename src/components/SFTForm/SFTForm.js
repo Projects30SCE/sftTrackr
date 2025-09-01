@@ -1,5 +1,14 @@
-import { useState } from "react";
-import { Button, Form, Input, Modal, Checkbox, message, Select } from "antd";
+import { useState, useEffect } from "react";
+import {
+  Button,
+  Form,
+  Input,
+  Modal,
+  Checkbox,
+  message,
+  Select,
+  Spin,
+} from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 
 import { CONSTANTS } from "../../utils/constants";
@@ -31,6 +40,8 @@ const SFTForm = () => {
   const [isLoadingChecklist, setIsLoadingChecklist] = useState(false);
   const [SFTChecklist, setSFTChecklist] = useState([]);
   const [checkedList, setCheckedList] = useState([]);
+  const [formValues, setFormValues] = useState({});
+  const [subUnitLabel, setSubUnitLabel] = useState("Platoon/ Section:");
 
   const initialValues = {
     rankName: getFromLocal(CONSTANTS.FORM_ITEM_KEYS.RANK_NAME)
@@ -42,36 +53,37 @@ const SFTForm = () => {
     activity: getFromLocal(CONSTANTS.FORM_ITEM_KEYS.ACTIVITY) || "",
   };
 
+  useEffect(() => {
+    const fetchChecklist = async () => {
+      setIsLoadingChecklist(true);
+      try {
+        const data = await getSFTChecklist(CONSTANTS.SHEETS);
+        setSFTChecklist(data);
+      } catch (error) {
+        messageApi.error("Failed to load checklist.");
+      } finally {
+        setIsLoadingChecklist(false);
+      }
+    };
+
+    fetchChecklist();
+  }, []);
+
   /** Form handlers */
   const onFinish = async (values) => {
     console.log(values);
-    const formattedTime = new Date().toLocaleString();
-    const rankNames = values.rankName
-      .map((item) => item)
-      .filter(Boolean)
-      .trim()
-      .toUpperCase();
-    saveToLocal(CONSTANTS.FORM_ITEM_KEYS.RANK_NAME, rankNames.join(", "));
-    // saveToLocal(CONSTANTS.FORM_ITEM_KEYS.RANK_NAME, values.rankName);
-    saveToLocal(
-      CONSTANTS.FORM_ITEM_KEYS.PLATOON_SECTION,
-      values.platoonSection
-    );
-    saveToLocal(CONSTANTS.FORM_ITEM_KEYS.LOCATION, values.location);
-    saveToLocal(CONSTANTS.FORM_ITEM_KEYS.ACTIVITY, values.activity);
-    saveToLocal(CONSTANTS.FORM_ITEM_KEYS.START_TIME, formattedTime);
-
+    setFormValues(values);
     setIsModalShown(true);
-    setIsLoadingChecklist(true);
+    // setIsLoadingChecklist(true);
 
-    try {
-      const data = await getSFTChecklist(CONSTANTS.SHEETS);
-      setSFTChecklist(data);
-    } catch (error) {
-      messageApi.error("Failed to load checklist.");
-    } finally {
-      setIsLoadingChecklist(false);
-    }
+    // try {
+    //   const data = await getSFTChecklist(CONSTANTS.SHEETS);
+    //   setSFTChecklist(data);
+    // } catch (error) {
+    //   messageApi.error("Failed to load checklist.");
+    // } finally {
+    //   setIsLoadingChecklist(false);
+    // }
   };
 
   const startActivity = async () => {
@@ -82,8 +94,22 @@ const SFTForm = () => {
       return;
     }
 
+    const formattedTime = new Date().toLocaleString();
+    const rankNames = formValues.rankName
+      .map((item) => item.trim().toUpperCase())
+      .filter(Boolean);
+    saveToLocal(CONSTANTS.FORM_ITEM_KEYS.RANK_NAME, rankNames.join(", "));
+    // saveToLocal(CONSTANTS.FORM_ITEM_KEYS.RANK_NAME, values.rankName);
+    saveToLocal(
+      CONSTANTS.FORM_ITEM_KEYS.PLATOON_SECTION,
+      formValues.platoonSection
+    );
+    saveToLocal(CONSTANTS.FORM_ITEM_KEYS.LOCATION, formValues.location);
+    saveToLocal(CONSTANTS.FORM_ITEM_KEYS.ACTIVITY, formValues.activity);
+    saveToLocal(CONSTANTS.FORM_ITEM_KEYS.START_TIME, formattedTime);
+
     setIsMessageSending(true);
-    const row = (await getRowNumber()) + 1;
+    const row = (await getRowNumber(formValues.subUnit)) + 1;
     saveToLocal(CONSTANTS.FORM_ITEM_KEYS.ROW, row);
     await updateSFT(row);
     await sendStartTelegramMessage();
@@ -135,10 +161,15 @@ const SFTForm = () => {
 
   const onSubUnitChange = (e) => {
     saveToLocal(CONSTANTS.FORM_ITEM_KEYS.SUB_UNIT, e);
+    if (e === CONSTANTS.COYS.HQ) {
+      setSubUnitLabel("Branch/ Department:");
+    } else {
+      setSubUnitLabel("Platoon/ Section:");
+    }
   };
 
   return (
-    <>
+    <Spin spinning={isLoadingChecklist}>
       {contextHolder}
       <Form
         form={form}
@@ -148,15 +179,6 @@ const SFTForm = () => {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
-        {/* <Form.Item
-          label="Rank/ Name"
-          name="rankName"
-          rules={[
-            { required: true, message: "Please input the rank and name!" },
-          ]}
-        >
-          <Input disabled={isActivityStarted} />
-        </Form.Item> */}
         <Form.List
           name="rankName"
           rules={[
@@ -254,8 +276,9 @@ const SFTForm = () => {
         </Form.Item>
 
         <Form.Item
-          label="Platoon/ Section"
+          label={subUnitLabel}
           name="platoonSection"
+          style={{ width: "80vw" }}
           rules={[
             {
               required: true,
@@ -329,7 +352,7 @@ const SFTForm = () => {
           ))}
         </Checkbox.Group>
       </Modal>
-    </>
+    </Spin>
   );
 };
 

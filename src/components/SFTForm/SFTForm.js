@@ -104,6 +104,7 @@ const SFTForm = () => {
       CONSTANTS.FORM_ITEM_KEYS.PLATOON_SECTION,
       formValues.platoonSection
     );
+    saveToLocal(CONSTANTS.FORM_ITEM_KEYS.SUB_UNIT, formValues.subUnit);
     saveToLocal(CONSTANTS.FORM_ITEM_KEYS.LOCATION, formValues.location);
     saveToLocal(CONSTANTS.FORM_ITEM_KEYS.ACTIVITY, formValues.activity);
     saveToLocal(CONSTANTS.FORM_ITEM_KEYS.START_TIME, formattedTime);

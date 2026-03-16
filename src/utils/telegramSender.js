@@ -50,7 +50,9 @@ export const sendStartTelegramMessage = async () => {
   const activity = getFromLocal(CONSTANTS.FORM_ITEM_KEYS.ACTIVITY);
   const subUnit = getFromLocal(CONSTANTS.FORM_ITEM_KEYS.SUB_UNIT);
   const startTime = getFromLocal(CONSTANTS.FORM_ITEM_KEYS.START_TIME);
-  const message = `Rank/Name: ${rankName}\nSub-Unit: ${subUnit}\nPlt/Section: ${platoonSection}\nLocation: ${location}\nActivity: ${activity}\nStart: ${startTime}\nEnd:`;
+  const message = `Rank/Name: ${rankName}\nSub-Unit: ${subUnit}\n${
+    subUnit === CONSTANTS.COYS.HQ ? "Branch/ Department:" : "Plt/Section:"
+  } ${platoonSection}\nLocation: ${location}\nActivity: ${activity}\nStart: ${startTime}\nEnd:`;
 
   const testUrl = `https://api.telegram.org/bot7677613806:AAHuIpblzFnJcUYKisgYITWskDj9jhtXPXI/sendMessage`;
 
@@ -60,7 +62,7 @@ export const sendStartTelegramMessage = async () => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      chat_id: CONSTANTS.CHANNELS.CHARLIE,
+      chat_id: CONSTANTS.CHANNELS[subUnit],
       text: message,
     }),
   });
@@ -74,7 +76,9 @@ export const sendEndTelegramMessage = async () => {
   const subUnit = getFromLocal(CONSTANTS.FORM_ITEM_KEYS.SUB_UNIT);
   const startTime = getFromLocal(CONSTANTS.FORM_ITEM_KEYS.START_TIME);
   const endTime = getFromLocal(CONSTANTS.FORM_ITEM_KEYS.END_TIME);
-  const message = `Rank/Name: ${rankName}\nSub-Unit: ${subUnit}\nPlt/Section: ${platoonSection}\nLocation: ${location}\nActivity: ${activity}\nStart: ${startTime}\nEnd: ${endTime}`;
+  const message = `Rank/Name: ${rankName}\nSub-Unit: ${subUnit}\n${
+    subUnit === CONSTANTS.COYS.HQ ? "Branch/ Department:" : "Plt/Section:"
+  } ${platoonSection}\nLocation: ${location}\nActivity: ${activity}\nStart: ${startTime}\nEnd: ${endTime}`;
 
   const testUrl = `https://api.telegram.org/bot7677613806:AAHuIpblzFnJcUYKisgYITWskDj9jhtXPXI/sendMessage`;
 
@@ -84,7 +88,7 @@ export const sendEndTelegramMessage = async () => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      chat_id: CONSTANTS.CHANNELS.CHARLIE,
+      chat_id: CONSTANTS.CHANNELS[subUnit],
       text: message,
     }),
   });

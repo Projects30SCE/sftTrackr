@@ -10,7 +10,11 @@ export const CONSTANTS = {
     SUB_UNIT: "subUnit",
   },
   CHANNELS: {
+    HQ: "-1003071854883",
+    ALPHA: "-1002945925585",
+    BRAVO: "-1002943762170",
     CHARLIE: "-1002747777186",
+    ME: "-1003061533781",
   },
   COYS: {
     HQ: "HQ",

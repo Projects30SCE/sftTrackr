@@ -219,7 +219,7 @@ const SFTForm = () => {
         >
           {(fields, { add, remove }, { errors }) => (
             //Made rank/name required
-             <Form.Item label="Rank/Name" required style={{ marginBottom: 8 }}> 
+             <Form.Item label="Rank/Name" required> 
               {fields.map((field) => {
                 const { key, ...fieldProps } = field; // extract key from spread
                 return (

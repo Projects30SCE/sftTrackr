@@ -30,23 +30,34 @@
   border-radius: 6px;
 }
 
+.App-fineprint {
+    margin-top: 0px;
+    font-size: 10px;
+    padding: 6px 12px 0px 40px;
+    color: #888;
+}
+
 /* Mobile tweaks */
 @media (max-width: 480px) {
   .App-titleStyle {
     height: auto;
-    padding: 6px 12px 4px 12px;
-    margin-bottom: 4px; /* reduce space below header on mobile */
+    padding: 6px 12px 0px 12px;
+    margin-bottom: 0px; /* reduce space below header on mobile */
   }
   .App-titleInner h1 {
     font-size: 1.8rem;
     
   }
   .App-logo {
-    height: 72px;
-    width: 72px;
+    height: 80px;
+    width: 80px;
   }
   /* reduce gap between header and form on small screens */
   .App-FlexBoxStyle {
     padding-top: 4px;
   }
+
+  
+
+
 }

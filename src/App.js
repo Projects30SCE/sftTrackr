@@ -15,8 +15,13 @@ const App = () => {
       </Flex>
       <Flex className="App-FlexBoxStyle" justify="center" align="center">
         <SFTForm />
+          </Flex>
+
+          {/* Fineprint at the bottom */}
+          <Flex justify="center" align="center" className="App-fineprint">
+              <small>For any issues please contact S3 department, 3SG KAI JUN. FOR INTERNAL USE ONLY.</small>
+          </Flex>
       </Flex>
-    </Flex>
   );
 };
 

@@ -1,15 +1,16 @@
 {
   "files": {
-    "main.css": "/sftTracker/static/css/main.72da7351.css",
-    "main.js": "/sftTracker/static/js/main.d77c3a8b.js",
-    "static/js/453.80f8227a.chunk.js": "/sftTracker/static/js/453.80f8227a.chunk.js",
-    "index.html": "/sftTracker/index.html",
-    "main.72da7351.css.map": "/sftTracker/static/css/main.72da7351.css.map",
-    "main.d77c3a8b.js.map": "/sftTracker/static/js/main.d77c3a8b.js.map",
-    "453.80f8227a.chunk.js.map": "/sftTracker/static/js/453.80f8227a.chunk.js.map"
+    "main.css": "/sftTrackr/static/css/main.bedb885a.css",
+    "main.js": "/sftTrackr/static/js/main.e314e911.js",
+    "static/js/453.d583917c.chunk.js": "/sftTrackr/static/js/453.d583917c.chunk.js",
+    "static/media/30SCE_LOGO.jpeg": "/sftTrackr/static/media/30SCE_LOGO.8479843944d57dad8e8f.jpeg",
+    "index.html": "/sftTrackr/index.html",
+    "main.bedb885a.css.map": "/sftTrackr/static/css/main.bedb885a.css.map",
+    "main.e314e911.js.map": "/sftTrackr/static/js/main.e314e911.js.map",
+    "453.d583917c.chunk.js.map": "/sftTrackr/static/js/453.d583917c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.72da7351.css",
-    "static/js/main.d77c3a8b.js"
+    "static/css/main.bedb885a.css",
+    "static/js/main.e314e911.js"
   ]
 }

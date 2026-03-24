@@ -1,7 +1,7 @@
 {
   "name": "sft-bot",
   "version": "0.1.0",
-  "homepage": "https://squareduckie.github.io/sftTrackr",
+  "homepage": "https://projects30sce.github.io/sftTrackr",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.6",
